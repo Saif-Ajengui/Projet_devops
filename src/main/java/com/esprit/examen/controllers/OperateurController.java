@@ -33,7 +33,7 @@ public class OperateurController {
 		return operateurService.retrieveOperateur(operateurId);
 	}
 
-	// http://localhost:8089/SpringMVC/operateur/add-operateur
+	// http://localhost:8089/operateur/add-operateur
 	@PostMapping("/add-operateur")
 	@ResponseBody
 	public Operateur addOperateur(@RequestBody Operateur op) {
