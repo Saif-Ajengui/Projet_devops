@@ -56,7 +56,7 @@ public class FactureServiceImpl implements IFactureService {
 	private Facture addDetailsFacture(Facture f, Set<DetailFacture> detailsFacture) {
 		float montantFacture = 0;
 		float montantRemise = 0;
-		Produit produit = new Produit();
+		Produit produit = null;
 		float x = 0;
 		for (DetailFacture detail : detailsFacture) {
 			//Récuperer le produit 
@@ -104,7 +104,7 @@ public class FactureServiceImpl implements IFactureService {
 
 	@Override
 	public List<Facture> getFacturesByFournisseur(Long idFournisseur) {
-		Fournisseur fournisseur = new Fournisseur();
+		Fournisseur fournisseur = null;
 		fournisseur = fournisseurRepository.findById(idFournisseur).orElse(null);
 		return (List<Facture>) fournisseur.getFactures();
 	}
@@ -112,7 +112,7 @@ public class FactureServiceImpl implements IFactureService {
 	@Override
 	public void assignOperateurToFacture(Long idOperateur, Long idFacture) {
 		Facture facture = factureRepository.findById(idFacture).orElse(null);
-		Operateur operateur = new Operateur();
+		Operateur operateur = null;
 		operateur = operateurRepository.findById(idOperateur).orElse(null);
 		operateur.getFactures().add(facture);
 		operateurRepository.save(operateur);
