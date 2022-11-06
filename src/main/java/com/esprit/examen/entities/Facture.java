@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.esprit.examen.requestModel.FactureRequestModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -96,6 +98,15 @@ public class Facture implements Serializable {
 	}
 	public void setReglements(Set<Reglement> reglements) {
 		this.reglements = reglements;
+	}
+	public Facture(FactureRequestModel f) {
+		// TODO Auto-generated constructor stub
+		super();
+		this.montantRemise = f.getMontantRemise();
+		this.montantFacture = f.getMontantFacture();
+		this.dateCreationFacture = f.getDateCreationFacture();
+		this.dateDerniereModificationFacture = f.getDateDerniereModificationFacture();
+		this.archivee = f.getArchivee();
 	}
 
 	

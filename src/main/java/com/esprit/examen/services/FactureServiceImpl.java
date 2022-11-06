@@ -16,6 +16,8 @@ import com.esprit.examen.repositories.FactureRepository;
 import com.esprit.examen.repositories.FournisseurRepository;
 import com.esprit.examen.repositories.OperateurRepository;
 import com.esprit.examen.repositories.ProduitRepository;
+import com.esprit.examen.requestModel.FactureRequestModel;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -46,8 +48,9 @@ public class FactureServiceImpl implements IFactureService {
 	}
 
 	
-	public Facture addFacture(Facture f) {
-		return factureRepository.save(f);
+	public Facture addFacture(FactureRequestModel f) {
+		Facture ff = new Facture(f);
+		return factureRepository.save(ff);
 	}
 
 	/*

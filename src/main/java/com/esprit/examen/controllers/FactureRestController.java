@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import com.esprit.examen.entities.Facture;
+import com.esprit.examen.requestModel.FactureRequestModel;
 import com.esprit.examen.services.IFactureService;
 
 import io.swagger.annotations.Api;
@@ -39,7 +40,7 @@ public class FactureRestController {
     // http://localhost:8089/SpringMVC/facture/add-facture/{fournisseur-id}
     @PostMapping("/add-facture")
     @ResponseBody
-    public Facture addFacture(@RequestBody Facture f) {
+    public Facture addFacture(@RequestBody FactureRequestModel f) {
         Facture facture = factureService.addFacture(f);
         return facture;
     }
