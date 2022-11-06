@@ -56,13 +56,10 @@ public class FactureServiceImpl implements IFactureService {
 	private Facture addDetailsFacture(Facture f, Set<DetailFacture> detailsFacture) {
 		float montantFacture = 0;
 		float montantRemise = 0;
-		Produit produit = new Produit();
+		
 		for (DetailFacture detail : detailsFacture) {
 			//Récuperer le produit 
-			if(produitRepository.findById(detail.getProduit().getIdProduit()).get()!= null)
-			{
-				produit = produitRepository.findById(detail.getProduit().getIdProduit()).get();	
-			}
+				Produit produit = produitRepository.findById(detail.getProduit().getIdProduit()).orElse(null);	
 			
 			
 			//Calculer le montant total pour chaque détail Facture
