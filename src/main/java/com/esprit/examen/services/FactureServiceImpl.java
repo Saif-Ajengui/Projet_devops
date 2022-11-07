@@ -48,7 +48,6 @@ public class FactureServiceImpl implements IFactureService {
 
 		Set<FactureDto> fdto = new HashSet<>();
 		List<Facture> factures = factureRepository.findAll();
-		Facture f = new Facture();
 		if (!factures.isEmpty()) {
 			factures.forEach(fact -> fdto.add(FactureDto.fromEntity(fact)));
 		}
@@ -114,10 +113,18 @@ public class FactureServiceImpl implements IFactureService {
 	}
 
 	@Override
-	public List<Facture> getFacturesByFournisseur(Long idFournisseur) {
+	public Set<FactureDto> getFacturesByFournisseur(Long idFournisseur) {
 		Fournisseur fournisseur = null;
+		Set<FactureDto> fdto = new HashSet<>();
+		
 		fournisseur = fournisseurRepository.findById(idFournisseur).orElse(null);
-		return (List<Facture>) fournisseur.getFactures();
+		List<Facture> factures = (List<Facture>) fournisseur.getFactures();
+		if(!factures.isEmpty())
+		{
+			factures.forEach(f -> fdto.add(FactureDto.fromEntity(f)));
+		}
+		return fdto;
+		//return (Set<FactureDto>) fournisseur.getFactures();
 	}
 
 	@Override

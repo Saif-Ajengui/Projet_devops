@@ -10,7 +10,7 @@ import com.esprit.examen.entities.Facture;
 public interface IFactureService {
 	Set<FactureDto> retrieveAllFactures();
 
-	List<Facture> getFacturesByFournisseur(Long idFournisseur);
+	Set<FactureDto> getFacturesByFournisseur(Long idFournisseur);
 
 	FactureDto addFacture(FactureDto f);
 

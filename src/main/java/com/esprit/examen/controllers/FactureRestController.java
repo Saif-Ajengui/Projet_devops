@@ -60,7 +60,7 @@ public class FactureRestController {
     // http://localhost:8089/SpringMVC/facture/getFactureByFournisseur/{fournisseur-id}
     @GetMapping("/getFactureByFournisseur/{fournisseur-id}")
     @ResponseBody
-    public List<Facture> getFactureByFournisseur(@PathVariable("fournisseur-id") Long fournisseurId) {
+    public Set<FactureDto> getFactureByFournisseur(@PathVariable("fournisseur-id") Long fournisseurId) {
         return factureService.getFacturesByFournisseur(fournisseurId);
     }
 
