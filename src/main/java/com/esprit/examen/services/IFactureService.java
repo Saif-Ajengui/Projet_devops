@@ -2,19 +2,21 @@ package com.esprit.examen.services;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+
+import com.esprit.examen.dto.FactureDto;
 import com.esprit.examen.entities.Facture;
-import com.esprit.examen.requestModel.FactureRequestModel;
 
 public interface IFactureService {
-	List<Facture> retrieveAllFactures();
+	Set<FactureDto> retrieveAllFactures();
 
 	List<Facture> getFacturesByFournisseur(Long idFournisseur);
 
-	Facture addFacture(FactureRequestModel f);
+	FactureDto addFacture(FactureDto f);
 
 	void cancelFacture(Long id);
 
-	Facture retrieveFacture(Long id);
+	FactureDto retrieveFacture(Long id);
 	
 	void assignOperateurToFacture(Long idOperateur, Long idFacture);
 
