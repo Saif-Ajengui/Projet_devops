@@ -147,7 +147,7 @@ public class FactureServiceImpl implements IFactureService {
 	@Override
 	public void assignOperateurToFacture(Long idOperateur, Long idFacture) {
 		Facture facture = factureRepository.findById(idFacture).orElse(null);
-		Operateur operateur = null;
+		Operateur operateur = new Operateur();
 		operateur = operateurRepository.findById(idOperateur).orElse(null);
 		operateur.getFactures().add(facture);
 		operateurRepository.save(operateur);
