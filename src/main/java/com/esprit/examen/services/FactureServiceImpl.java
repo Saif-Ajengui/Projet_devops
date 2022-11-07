@@ -127,10 +127,13 @@ public class FactureServiceImpl implements IFactureService {
 			}
 			else
 			{
-				fournisseurRepository.findById(idFournisseur).orElse(null)
-				.getFactures().forEach(f -> 
-									{fdto.add(FactureDto.fromEntity(f));}
-								);
+				if(!fournisseurRepository.findById(idFournisseur).get().getFactures().isEmpty())
+				{
+					fournisseurRepository.findById(idFournisseur).get().getFactures().forEach(f -> 
+					{fdto.add(FactureDto.fromEntity(f));}
+				);
+				}
+				
 
 			}
 			return fdto;
