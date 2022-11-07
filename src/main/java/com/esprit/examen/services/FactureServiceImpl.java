@@ -120,11 +120,17 @@ public class FactureServiceImpl implements IFactureService {
 		fournisseur = fournisseurRepository.findById(idFournisseur).orElse(null);
 //		List<Facture> factures = null;
 //		factures = (List<Facture>) fournisseur.getFactures().isEmpty();
-		if(!fournisseur.getFactures().isEmpty())
-		{
-			fournisseur.getFactures().forEach(f -> fdto.add(FactureDto.fromEntity(f)));
+		try {
+			if(!fournisseur.getFactures().isEmpty())
+			{
+				fournisseur.getFactures().forEach(f -> fdto.add(FactureDto.fromEntity(f)));
+			}
+			return fdto;
 		}
-		return fdto;
+		catch(NullPointerException e) {
+			return null;
+		}
+		
 		//return (Set<FactureDto>) fournisseur.getFactures();
 	}
 
