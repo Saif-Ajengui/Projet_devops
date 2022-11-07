@@ -114,24 +114,27 @@ public class FactureServiceImpl implements IFactureService {
 
 	@Override
 	public Set<FactureDto> getFacturesByFournisseur(Long idFournisseur) {
-		Fournisseur fournisseur = null;
+	//	Fournisseur fournisseur = new Fournisseur();
 		Set<FactureDto> fdto = new HashSet<>();
 		
-		fournisseur = fournisseurRepository.findById(idFournisseur).orElse(null);
+	//	fournisseur = fournisseurRepository.findById(idFournisseur).orElse(null);
 //		List<Facture> factures = null;
 //		factures = (List<Facture>) fournisseur.getFactures().isEmpty();
-		try {
-			if(!fournisseur.getFactures().isEmpty())
+	
+			if(fournisseurRepository.findById(idFournisseur).orElse(null) == null)
 			{
-				fournisseur.getFactures().forEach(f -> fdto.add(FactureDto.fromEntity(f)));
+				fdto.add(null);
+			}
+			else
+			{
+				fournisseurRepository.findById(idFournisseur).orElse(null)
+				.getFactures().forEach(f -> 
+									{fdto.add(FactureDto.fromEntity(f));}
+								);
+
 			}
 			return fdto;
-		}
-		catch(NullPointerException e) {
-			return null;
-		}
 		
-		//return (Set<FactureDto>) fournisseur.getFactures();
 	}
 
 	@Override
