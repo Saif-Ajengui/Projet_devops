@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -114,24 +115,27 @@ public class FactureServiceImpl implements IFactureService {
 
 	@Override
 	public Set<FactureDto> getFacturesByFournisseur(Long idFournisseur) {
-	//	Fournisseur fournisseur = new Fournisseur();
+		Fournisseur fournisseur = new Fournisseur();
 		Set<FactureDto> fdto = new HashSet<>();
 		
-	//	fournisseur = fournisseurRepository.findById(idFournisseur).orElse(null);
+		fournisseur = fournisseurRepository.findById(idFournisseur).orElse(null);
 //		List<Facture> factures = null;
 //		factures = (List<Facture>) fournisseur.getFactures().isEmpty();
 	
-			if(fournisseurRepository.findById(idFournisseur).orElse(null) == null)
+			if(fournisseur == null)
 			{
 				fdto.add(null);
 			}
 			else
 			{
-				if(!fournisseurRepository.findById(idFournisseur).get().getFactures().isEmpty())
+				Optional<Facture> facture = fournisseur.getFactures().stream().findFirst();
+				if(facture.isPresent())
 				{
-					fournisseurRepository.findById(idFournisseur).get().getFactures().forEach(f -> 
-					{fdto.add(FactureDto.fromEntity(f));}
-				);
+					fournisseur.getFactures().stream().forEach(f -> 
+					fdto.add(FactureDto.fromEntity(f)));
+//					fournisseur.getFactures().forEach(f -> 
+//					fdto.add(FactureDto.fromEntity(f))
+//				);
 				}
 				
 
