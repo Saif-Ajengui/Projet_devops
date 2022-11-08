@@ -1,12 +1,11 @@
 package com.esprit.examen.services;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -144,25 +143,23 @@ public class FactureServiceImpl implements IFactureService {
 		
 	}
 
+
+	
 	@Override
 	public void assignOperateurToFacture(Long idOperateur, Long idFacture) {
 		Facture facture = factureRepository.findById(idFacture).orElse(null);
+		
 		Operateur operateur = new Operateur();
 		operateur = operateurRepository.findById(idOperateur).orElse(null);
-		operateur.getFactures().add(facture);
+		
+		List<Facture> list = new ArrayList<>(operateur.getFactures());
+		list.add(facture);
+		
+		Set<Facture> set = new HashSet<>(list);
+		operateur.setFactures(set);
+
 		operateurRepository.save(operateur);
-		
-		
-//		Facture facture = factureRepository.findById(idFacture).orElse(null);
-//		Operateur operateur =  operateurRepository.findById(idOperateur).orElse(null);
-//		
-//		Optional<Facture> f = operateur.getFactures().stream().findFirst();
-//		if(f.isPresent())
-//		{
-//			operateur.getFactures().add(facture);
-//		}
-//		
-//		operateurRepository.save(operateur);
+
 	}
 
 	@Override
