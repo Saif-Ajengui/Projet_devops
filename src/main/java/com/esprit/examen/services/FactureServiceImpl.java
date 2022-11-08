@@ -149,7 +149,7 @@ public class FactureServiceImpl implements IFactureService {
 	public void assignOperateurToFacture(Long idOperateur, Long idFacture) {
 
 		Facture facture = factureRepository.findById(idFacture).orElse(null);
-		Optional<Operateur> operateur = Optional.of(operateurRepository.findById(idOperateur).get());
+		Optional<Operateur> operateur = Optional.of(operateurRepository.findById(idOperateur).orElse(null));
 		operateur.get().getFactures().add(facture);
 		operateurRepository.save(operateur.get());
 
