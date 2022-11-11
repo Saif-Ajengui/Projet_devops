@@ -74,4 +74,26 @@ public class FactureDto {
 		return facture;
 
 	}
+
+	public FactureDto(Long idFacture, float montantRemise, float montantFacture, Date dateCreationFacture,
+			Date dateDerniereModificationFacture, Boolean archivee) {
+		super();
+		this.idFacture = idFacture;
+		this.montantRemise = montantRemise;
+		this.montantFacture = montantFacture;
+		this.dateCreationFacture = dateCreationFacture;
+		this.dateDerniereModificationFacture = dateDerniereModificationFacture;
+		this.archivee = archivee;
+	}
+
+	public FactureDto(float montantRemise, float montantFacture, Date dateCreationFacture,
+			Date dateDerniereModificationFacture, Boolean archivee) {
+		super();
+		this.montantRemise = montantRemise;
+		this.montantFacture = montantFacture;
+		this.dateCreationFacture = dateCreationFacture;
+		this.dateDerniereModificationFacture = dateDerniereModificationFacture;
+		this.archivee = archivee;
+	}
+	
 }

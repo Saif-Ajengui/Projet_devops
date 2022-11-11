@@ -23,11 +23,15 @@ import com.esprit.examen.repositories.FournisseurRepository;
 import com.esprit.examen.repositories.OperateurRepository;
 import com.esprit.examen.repositories.ProduitRepository;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
 @Transactional
+@AllArgsConstructor
 public class FactureServiceImpl implements IFactureService {
 
 	@Autowired
@@ -43,6 +47,9 @@ public class FactureServiceImpl implements IFactureService {
 	@Autowired
 	ReglementServiceImpl reglementService;
 
+	
+	
+	
 	@Override
 	public Set<FactureDto> retrieveAllFactures() {
 
@@ -58,6 +65,10 @@ public class FactureServiceImpl implements IFactureService {
 
 	public FactureDto addFacture(FactureDto f) {
 		return FactureDto.fromEntity(factureRepository.save(FactureDto.toEntity(f)));
+	}
+	
+	public Facture addFacturee(Facture f) {
+		return factureRepository.save(f);
 	}
 
 	/*
@@ -163,4 +174,10 @@ public class FactureServiceImpl implements IFactureService {
 		return pourcentage;
 	}
 
+	public FactureServiceImpl(FactureRepository factureRepository) {
+		super();
+		this.factureRepository = factureRepository;
+	}
+
+	
 }
