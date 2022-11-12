@@ -4,22 +4,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
 import java.util.Date;
-import java.time.Instant;  
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import static org.mockito.BDDMockito.given;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import com.esprit.examen.dto.FactureDto;
 import com.esprit.examen.entities.Facture;
 import com.esprit.examen.repositories.FactureRepository;
 import com.esprit.examen.services.FactureServiceImpl;
 
-import lombok.extern.slf4j.Slf4j;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -28,8 +24,7 @@ public class FactureServiceImplTest {
 	@Mock
 	private FactureRepository factureRepository;
 	
-	@Mock
-	private FactureDto factureDto;
+	
 	
 	private FactureServiceImpl FactureService;
 

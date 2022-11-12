@@ -31,11 +31,11 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 @Transactional
-@AllArgsConstructor
+@Data
 public class FactureServiceImpl implements IFactureService {
 
 	@Autowired
-	FactureRepository factureRepository;
+	private final FactureRepository factureRepository;
 	@Autowired
 	OperateurRepository operateurRepository;
 	@Autowired
@@ -178,6 +178,10 @@ public class FactureServiceImpl implements IFactureService {
 		super();
 		this.factureRepository = factureRepository;
 	}
+
+	
+
+	
 
 	
 }
