@@ -2,6 +2,8 @@ package com.esprit.examen.services;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,10 +62,12 @@ public class ProduitServiceImpl implements IProduitService {
 
 	@Override
 	public void assignProduitToStock(Long idProduit, Long idStock) {
-		Produit produit = produitRepository.findById(idProduit).orElse(null);
 		Stock stock = stockRepository.findById(idStock).orElse(null);
-		produit.setStock(stock);
-		produitRepository.save(produit);
+		Optional<Produit> produit = Optional.of(produitRepository.findById(idProduit).orElse(null));
+		
+		//produit.setStock(stock);
+		produit.get().setStock(stock);
+		produitRepository.save(produit.get());
 
 	}
 

@@ -12,7 +12,7 @@ import io.swagger.annotations.Api;
 
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:4200")
 @Api(tags = "Gestion des produits")
 @RequestMapping("/produit")
 public class ProduitRestController {
@@ -36,7 +36,7 @@ public class ProduitRestController {
 	}
 
 	/* Ajouter en produit tout en lui affectant la catégorie produit et le stock associés */
-	// http://localhost:8089/SpringMVC/produit/add-produit/{idCategorieProduit}/{idStock}
+	// http://localhost:8089/produit/add-produit
 	@PostMapping("/add-produit")
 	@ResponseBody
 	public Produit addProduit(@RequestBody Produit p) {
