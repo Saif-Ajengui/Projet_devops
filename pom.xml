@@ -102,6 +102,11 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<!-- Stack trace -->
+				<configuration>
+		            <trimStackTrace>false</trimStackTrace>
+		        </configuration>
+		        <!-- End Stack trace -->
 			</plugin>
 		</plugins>
 		
