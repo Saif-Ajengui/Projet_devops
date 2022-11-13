@@ -65,7 +65,6 @@ public class ProduitServiceImpl implements IProduitService {
 		Stock stock = stockRepository.findById(idStock).orElse(null);
 		Optional<Produit> produit = Optional.of(produitRepository.findById(idProduit).orElse(null));
 		
-		//produit.setStock(stock);
 		produit.get().setStock(stock);
 		produitRepository.save(produit.get());
 
