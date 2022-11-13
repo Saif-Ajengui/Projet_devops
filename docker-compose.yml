@@ -1,21 +1,75 @@
-version: '3.9'
+version: "3"
+
 services:
+  nexus:
+         container_name : nexus
+         image: sonatype/nexus3
+         ports:
+                 - 8081:8081
+         volumes:
+                 - /home/${myname}
+
+
+  jenkins:
+         image: jenkinsci/blueocean:latest
+         privileged: true
+         user: root
+         ports:
+                 - 8080:8080
+                 - 50000:50000
+         container_name: jenkins
+         volumes:
+                 - /home/${myname}/jenkins_compose/jenkins_configuration:/var/jenkins_home
+                 - /var/run/docker.sock:/var/run/docker.sock
+                 - /home/${myname}/agent/jvm/bin
+            
+  sonar:
+         container_name: sonar
+         image: sonarqube
+         restart: unless-stopped
+         ports:
+
+                 - 9000:9000
+                 - 9092:9092
+      
+                 
+                 
+         depends_on:
+                 - mysqldb
+                                                
+
+
+
+
   mysqldb:
-    container_name: mysqldb
-    image: mysql:8
-    volumes:
-      - /home/mysqlData:/var/lib/mysql
-    restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-  
+         container_name: mysqldb
+         image: mysql:8
+         environment:
+                 MYSQL_ROOT_PASSWORD: admin
+         ports:
+                 - 3306:3306
+         volumes:
+                 - /home/mysqldata:/var/lib/msql
   spring_app:
-    container_name: tpachatproject
-    depends_on:
-      - mysqldb
-    image: tpachatproject
-    ports:
-      - "9090:9090"
-    restart: on-failure
-  
+         image: tpachat
+         container_name: achatproject
+         restart : on-failure
+         ports:
+                 - 8089:8089
+         depends_on:
+                 - mysqldb
+
+  agent:
+         image: jenkins/ssh-agent:jdk11
+         privileged: true
+         user: jenkins
+         container_name: agent2
+         ports:
+
+                 -  22:22
+                  
+         environment:
+               - JENKINS_AGENT_SSH_PUBKEY=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDaybk7UdNC3VVyAHiaeyfjVo+TX4yH2jHrj31FwMsjoYZkxxepk+aBM/VM++rTr7ZU++NoZJGIHFF4awzFJ95hewzP5R7V7lq3FgCbdTe08y4sBT1b/drg8Ze2AMLkXaOTjw0W1CGgiCdrqGUW6wMQimR0z/sKAbCKgTrK/noA3W31yK1kI1normhH36oV1MA9HKS7sKH/10powdCudeoyFObZo81qfW4Ty8YIIySb2d1feRn4pUEbx+j9vjcRMYb/QEIoORfe+t00NxyZ84ZyiWcQcKCB3H+JBPLOMFiRDuT+Iv+a+HyB0w6b6QsvwJAYsKbBrpimJcUIgJ7Pj/EOQEJfhIH9l5HcHVJyO+yOClu6JtU3LsXohZ2Y+SCvR3RZpY1D7QkYgq8TkpPYWwUk18haWQ5QTsCLRDcpFmhDL5zQK7JXunWs04QsCgVEJogkgpa1Cgl8QNPu+6p11XDMKGgXbJ9WJGIrGk2jkIaAzyZhZRibOd4rVeSigQ2uLYM= root@92d5a1dac2a3
+
+
 
