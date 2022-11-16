@@ -17,10 +17,10 @@ services:
 
   spring_app:
     image: fatma1998/tpachat
-    container_name: achatspring
+    container_name: tpachatspring
     restart: on-failure
     environment:
-      - spring.datasource.url=jdbc:mysqldb://mysql:3306/tpachtoo?createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+      - spring.datasource.url=jdbc:mysqldb://mysql://localhost:3306/tpachtoo?createDatabaseIfNotExist=true
     ports:
       - 8089:8089
     depends_on:
