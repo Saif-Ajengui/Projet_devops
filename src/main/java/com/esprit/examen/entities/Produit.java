@@ -47,7 +47,6 @@ public class Produit implements Serializable {
 	@ManyToOne
 	@JsonIgnore
 	private CategorieProduit categorieProduit;
-	
 	public Long getIdProduit() {
 		return idProduit;
 	}
@@ -102,18 +101,15 @@ public class Produit implements Serializable {
 	public void setCategorieProduit(CategorieProduit categorieProduit) {
 		this.categorieProduit = categorieProduit;
 	}
-	public Produit(String codeProduit, String libelleProduit, float prix, Date dateCreation,
-			Date dateDerniereModification) {
-		super();
+
+	public Produit(Long idProduit, String codeProduit, String libelleProduit, float prix) {
+		this.idProduit = idProduit;
 		this.codeProduit = codeProduit;
 		this.libelleProduit = libelleProduit;
 		this.prix = prix;
-		this.dateCreation = dateCreation;
-		this.dateDerniereModification = dateDerniereModification;
 	}
+
 	
-
-
 
 	
 
