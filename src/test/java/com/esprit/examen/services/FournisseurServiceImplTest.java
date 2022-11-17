@@ -4,9 +4,12 @@ import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
 
 import java.sql.Date;
+import java.util.Optional;
+
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -17,14 +20,19 @@ import com.esprit.examen.entities.CategorieFournisseur;
 import com.esprit.examen.entities.DetailFournisseur;
 import com.esprit.examen.entities.Fournisseur;
 import com.esprit.examen.entities.SecteurActivite;
+import com.esprit.examen.repositories.FournisseurRepository;
 import com.mysql.cj.log.Log;
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class FournisseurServiceImplTest {
 	@Autowired
 	IFournisseurService fs;
 	@Autowired
 	ISecteurActiviteService sas;
+	
+    @Mock
+    FournisseurRepository fournisseurRepository;
 	
 	private Fournisseur initF()
 	{
@@ -33,7 +41,19 @@ public class FournisseurServiceImplTest {
 		Fournisseur f = new Fournisseur(null,"RandomCode","FournisseurTest",CategorieFournisseur.ORDINAIRE,null,null,detailFournisseur);
 		return f;
 	}
+	
+    @Test
+    public void testaddFournisseur(){
+    	Fournisseur fournisseur = new Fournisseur(null,"MockitoCode","FournisseurTest",CategorieFournisseur.ORDINAIRE,null,null,null);
 
+        Mockito.when(fournisseurRepository.save(fournisseur)).thenReturn(fournisseur);
+
+       assertNotNull(fs.addFournisseur(fournisseur));
+    }
+
+
+
+/*
 	@Test
 	public void testAddFournisseur() {
 	//	List<Stock> stocks = stockService.retrieveAllStocks();
@@ -46,7 +66,7 @@ public class FournisseurServiceImplTest {
 		assertNotNull(savedFournisseur.getLibelle());
 		fs.deleteFournisseur(savedFournisseur.getIdFournisseur());
 		
-	} 
+	} */
 	
 	@Test
 	public void testDeleteFournissuer() {
@@ -77,6 +97,8 @@ public class FournisseurServiceImplTest {
 		assertNull(savedFournisseur.getSecteurActivites().size());
 		fs.deleteFournisseur(savedFournisseur.getIdFournisseur());
 	sas.deleteSecteurActivite(savedSA.getIdSecteurActivite());
+
+
 		
 	}*/
 
