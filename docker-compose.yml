@@ -4,12 +4,12 @@ version: "3.3"
 services:
 
   mysql-db:
-    image: mysql:8
-    container_name: mysqldb
+    image: mysql:5.6
+    container_name: mysql-db
     #Environment variable for password and default database
     environment:
       MYSQL_ROOT_PASSWORD: 'root'
-      MYSQL_DATABASE: 'achatdb'
+      MYSQL_DATABASE: 'tpachato'
     ports:
       - target: 3306
         published: 3306
@@ -20,12 +20,12 @@ services:
   springboot-app:
     #The docker file in BE, build the jar and provides the docker image.
     image: saifajengui/springbootachat1:latest
-    container_name: tpachatproject
+    container_name: springboot-app
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/tpachato?createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/tpachato?createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
-      MYSQL_HOST: mysqldb
+      MYSQL_HOST: mysql-db
       MYSQL_USER: root
       MYSQL_ROOT_PASSWORD: root
       MYSQL_PASSWORD: root
@@ -35,4 +35,4 @@ services:
     ports:
       - 8089:8089 #Forwars the exposed port 8080 on the container to port 8080 on the host machine
     links:
-      - mysqldb
+      - mysql-db
