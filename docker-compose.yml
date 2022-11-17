@@ -19,7 +19,7 @@ services:
   #Back-end Spring Boot Application
   springboot-app:
     #The docker file in BE, build the jar and provides the docker image.
-    image: 
+    image: saifajengui/springbootachat1:latest
     container_name: tpachatproject
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/tpachato?createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
