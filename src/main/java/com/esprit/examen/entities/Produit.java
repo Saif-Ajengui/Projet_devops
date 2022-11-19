@@ -18,10 +18,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class Produit implements Serializable {
 
 	/**
@@ -116,6 +113,9 @@ public class Produit implements Serializable {
 		this.prix = prix;
 		this.dateCreation = dateCreation;
 		this.dateDerniereModification = dateDerniereModification;
+	}
+	public Produit() {
+		super();
 	}
 	
 	

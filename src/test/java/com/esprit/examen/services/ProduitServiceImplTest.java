@@ -1,96 +1,170 @@
 package com.esprit.examen.services;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
 
+import com.esprit.examen.entities.Produit;
+import com.esprit.examen.repositories.ProduitRepository;
+
+import lombok.extern.slf4j.Slf4j;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.boot.test.context.SpringBootTest;
-
-import com.esprit.examen.entities.Produit;
-import com.esprit.examen.entities.Stock;
-import com.esprit.examen.repositories.ProduitRepository;
-import com.esprit.examen.repositories.StockRepository;
+import org.mockito.junit.MockitoJUnitRunner;
 
 
+import java.util.Optional;
 
-@ExtendWith(MockitoExtension.class)
+import static org.mockito.Matchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.mock;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
+import static org.mockito.BDDMockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+
+
+@Slf4j
 @SpringBootTest
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class ProduitServiceImplTest {
+@RunWith(MockitoJUnitRunner.class)
+public class ProduitServiceImplTest {
+
+	@Mock
+	ProduitRepository produitrepo;
+	@InjectMocks
+	ProduitServiceImpl produitserv;
+
+	@Test
+	public void addProduitTest() {
+		Produit produit = new Produit();
+		produit.setCodeProduit("120"); 
+
+		Mockito.when(produitrepo.save(ArgumentMatchers.any(Produit.class))).thenReturn(produit);
+
+		Produit produit_save = produitserv.addProduit(produit);
+
+		assertThat(produit_save.getCodeProduit()).isSameAs(produit_save.getCodeProduit());
+		verify(produitrepo).save(produit_save);
+	}
+
+	@Test
+	public void RetrieveAll() {
+		List<Produit> produits = new ArrayList<>();
+		produits.add(new Produit());
+
+		when(produitrepo.findAll()).thenReturn(produits);
+
+		List<Produit> expected = produitserv.retrieveAllProduits();
+		
+		assertEquals(expected, produits);
+		verify(produitrepo).findAll();
+	}
+	
+	
+
+	@Test
+	public void DeleteProduitIfExistTest() {
+		Produit produit = new Produit();
+		produit.setIdProduit(1L);
+		produit.setCodeProduit("120");
+		produit.setLibelleProduit("libelle2");
+		produit.setPrix(16);
+
+		
+		Mockito.when(produitrepo.findById(produit.getIdProduit())).thenReturn(Optional.of(produit));
+		produitserv.deleteProduit(produit.getIdProduit());
+		verify(produitrepo).deleteById(produit.getIdProduit());
+	};
+	//expected = RuntimeException.class
+	@Test()
+	public void delete_produit_doesnt_exist() {
+		Produit produit = new Produit();
+		produit.setIdProduit(22L);
+		produit.setCodeProduit("222");
+		produit.setLibelleProduit("libelle3");
+		produit.setPrix(20);
+		given(produitrepo.findById(anyLong())).willReturn(Optional.ofNullable(null));
+		produitrepo.deleteById(produit.getIdProduit());
+		}
+	
+	
+/*
+	@Test
+	public void whenGivenId_shouldUpdateProduit_ifFound() {
+	Produit produit = new Produit();
+	produit.setIdProduit(1L);
+	produit.setCodeProduit("111");
+	
+	Produit newProduit = new Produit();
+	produit.setCodeProduit("222");
+	
+	given(produitrepo.findById(produit.getIdProduit())).willReturn(Optional.of(produit));
+	produitserv.updateProduit(newProduit);
+	//produitserv.updateProduit(produit.getIdProduit(), newProduit);
+	verify(produitrepo).save(newProduit);
+	verify(produitrepo).findById(produit.getIdProduit());
+	}
+	
+	
+	@Test(expected = RuntimeException.class)
+	public void should_throw_exception_when_produit_doesnt_exist() {
+	Produit produit = new Produit();
+	produit.setIdProduit(1L);
+	produit.setCodeProduit("111");
+	Produit newProduit = new Produit();
+	newProduit.setIdProduit(2L);
+	produit.setCodeProduit("222");
+	given(produitrepo.findById(anyLong())).willReturn(Optional.ofNullable(null));
+	produitserv.updateProduit(newProduit);
+	//produitserv.updateProduit(produit.getIdProduit(), newProduit);
+	}
+	
+	
+*/	
+	
 
 
 
-    @Autowired
-    IProduitService produitService;
-    @Autowired
-    IStockService stockService;
-    @Mock
-    StockRepository stockRepository ;
-    @Mock
-    ProduitRepository produitRepository;
-    @InjectMocks
-    ProduitServiceImpl produitServiceImp;
-    @InjectMocks
-    StockServiceImpl stockServiceImp;
-    Produit produit = new Produit( " 12345", "anas",(float)7.4,new Date(),new Date());
-    List<Produit> listProduit = new ArrayList<Produit>(){
-        {
-            add(new Produit("123456", "anas11",(float)7.4,new Date(),new Date()));
-            add(new Produit("1234567", "anas22",(float)8.4,new Date(),new Date()));
-        }
-    };
-    @Test
-    void testRetrieveAllProduits() {
-        Mockito.when(produitRepository.findAll()).thenReturn(listProduit);
-        List<Produit> listProduit1 = produitServiceImp.retrieveAllProduits();
-        assertTrue(listProduit1.size()>=0);
-    }
-
-    @Test
-    void testAddProduit() {
-        Mockito.when(produitRepository.save(produit)).thenReturn(produit);
-        Produit produit1 = produitServiceImp.addProduit(produit);
-        assertNotNull(produit1);
-    }
-
-    @Test
-    void testDeleteProduit() {
-        Mockito.doNothing().when(produitRepository).deleteById(Mockito.anyLong());
-        produitServiceImp.deleteProduit(3L);
-        Mockito.verify(produitRepository, Mockito.times(1)).deleteById(3L);
-    }
-
-
-    @Test
-    void testRetrieveProduit() {
-        Mockito.when(produitRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(produit));
-        Produit produit1 = produitServiceImp.retrieveProduit(2L);
-        assertNotNull(produit1);
-    }
-
-  /*  @Test
-    void testAssignProduitToStock() {
-        Stock s = new Stock("jjjjjj", (Integer) 9 ,(Integer) 2 );
-        Produit p = new Produit(" 12345", "lotfi",(float)7.4,new Date(),new Date());
-        Stock stockAdded = stockService.addStock(s);
-        Produit produitAdded = produitService.addProduit(p);
-        produitService.assignProduitToStock(produitAdded.getIdProduit(),stockAdded.getIdStock());
-        assertNotNull(produitService.retrieveProduit(produitAdded.getIdProduit()).getStock());
-        produitService.deleteProduit(produitAdded.getIdProduit());
-        stockRepository.delete(stockAdded);
-    }*/
+/*
+@SpringBootTest
+@RunWith(SpringRunner.class)
+public class ProduitTest {
+	
+	@Autowired
+	private ProduitServiceImpl service;
+	
+	@MockBean
+	private ProduitRepository repository;
+	
+	@Test
+	public void addProduitTest() throws ParseException, java.text.ParseException{
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date dc = dateFormat.parse("2022-11-15");
+		Date dm = dateFormat.parse("2022-11-16");
+		Mockito.when(repository.findAll()).thenReturn(Stream.of(new Produit("123","libelle",15,dc,dm), new Produit("456","libelle1",15,dc,dm)).collect(Collectors.toList()));
+	    assertEquals(2, service.retrieveAllProduits().size());
+	}
+*/
 
 }
